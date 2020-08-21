@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,6 +27,7 @@ public class YandexMarketTest {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         logger.info("Драйвер поднят");
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get("https://market.yandex.ru/");
         driver.manage().addCookie(new Cookie("oMaSefD", "1"));
         logger.info("Яндекс Маркет открыт");
@@ -36,27 +38,27 @@ public class YandexMarketTest {
     public void test() {
         driver.findElement(By.cssSelector("div._3Lwc_UVFq4")).click();
         String locatorSmartphones = "div.pEcbzwIiNV:nth-child(1) > ul:nth-child(2) > li:nth-child(1) > div:nth-child(1) > a:nth-child(1)";
-        new WebDriverWait(driver, 30)
+        new WebDriverWait(driver, 60)
                 .until(ExpectedConditions.elementToBeClickable(By.cssSelector(locatorSmartphones)));
         logger.info("Каталог открыт");
         driver.findElement(By.cssSelector(locatorSmartphones)).click();
-        new WebDriverWait(driver,30)
+        new WebDriverWait(driver,60)
                 .until(ExpectedConditions.visibilityOfElementLocated(new By.ByXPath("//span[text()='Samsung']"))).click();
         logger.info("Выбран фильтр Samsung");
-        new WebDriverWait(driver,30)
+        new WebDriverWait(driver,60)
                 .until(ExpectedConditions.visibilityOfElementLocated(new By.ByXPath("//span[text()='Xiaomi']"))).click();
         logger.info("Выбран фильтр Xiaomi");
-        new WebDriverWait(driver,30)
+        new WebDriverWait(driver,60)
                 .until(ExpectedConditions.visibilityOfElementLocated(new By.ByXPath("//button[text()='по цене']"))).click();
         logger.info("Сортировка по цене(от меньшей к большей)");
-        new WebDriverWait(driver, 30)
+        new WebDriverWait(driver, 60)
                 .until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div._2LvbieS_AO._1oZmP3Lbj2")));
         logger.info("Лоадер скрылся");
 
         driver.findElement(By.xpath("//a[contains(@title,'Galaxy')]/ancestor::article//div[contains(@aria-label,'сравнению')]")).click();
         logger.info("Первый Samsung добавлен в сравнение");
         String popup1 = "Товар " + driver.findElement(By.xpath("//a[contains(@title,'Galaxy')]")).getAttribute("title").toString() + " добавлен к сравнению";
-        String check1 = new WebDriverWait(driver,30).
+        String check1 = new WebDriverWait(driver,60).
                 until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Galaxy')]"))).getText();
         assertEquals(popup1, check1);
         logger.info("Отобразилась плашка \"Товар Смартфон Galaxy добавлен к сравнению\"");
@@ -64,7 +66,7 @@ public class YandexMarketTest {
         driver.findElement(By.xpath("//a[contains(@title,'Redmi')]/ancestor::article//div[contains(@aria-label,'сравнению')]")).click();
         logger.info("Первый Xiaomi добавлен в сравнение");
         String popup2 = "Товар " + driver.findElement(By.xpath("//a[contains(@title,'Redmi')]")).getAttribute("title").toString() + " добавлен к сравнению";
-        String check2 = new WebDriverWait(driver,30)
+        String check2 = new WebDriverWait(driver,60)
                 .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Redmi')]"))).getText();
         assertEquals(popup2, check2);
         logger.info("Отобразилась плашка \"Товар Смартфон Redmi добавлен к сравнению\"");
