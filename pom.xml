@@ -20,7 +20,7 @@
 
 
     <groupId>ru.otus</groupId>
-    <artifactId>otusHomework2</artifactId>
+    <artifactId>otusHomework3</artifactId>
     <version>1.0-SNAPSHOT</version>
     <dependencies>
         <dependency>
